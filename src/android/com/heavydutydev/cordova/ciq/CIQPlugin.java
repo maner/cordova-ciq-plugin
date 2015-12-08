@@ -56,7 +56,7 @@ public class CIQPlugin extends CordovaPlugin {
         }
 
         if (callable != null) {
-            runNonBlocking(new CIQExceptionHandlingRunnable(callbackContext, action, callable));
+            run(new CIQExceptionHandlingRunnable(callbackContext, action, callable));
         } else {
             Log.e(TAG, "Unknown action: " + action);
             callbackContext.error("UNKNOWN_ACTION");
@@ -67,6 +67,10 @@ public class CIQPlugin extends CordovaPlugin {
 
     protected void runNonBlocking(Runnable runnable) {
         cordova.getThreadPool().execute(runnable);
+    }
+    
+    protected void run(Runnable runnable) {
+        runnable.run();
     }
 
     protected static final class CIQExceptionHandlingRunnable implements Runnable {

@@ -7,3 +7,5 @@ ConnectIQ.prototype.initialize = function(successCallback, failureCallback) {
 ConnectIQ.prototype.getKnownDevices = function(successCallback, failureCallback) {
     cordova.exec(successCallback, failureCallback, "ConnectIQ", "knownDevices", []);
 };
+
+exports.ConnectIQ = new ConnectIQ();

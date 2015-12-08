@@ -63,7 +63,7 @@ public class CIQContext {
     }
 
     protected void repopulateDeviceMap(List<IQDevice> iqDevices) {
-        deviceIdToDevice = new HashMap<>();
+        deviceIdToDevice = new HashMap<Long, IQDevice>();
 
         for (IQDevice iqDevice : iqDevices) {
             deviceIdToDevice.put(iqDevice.getDeviceIdentifier(), iqDevice);

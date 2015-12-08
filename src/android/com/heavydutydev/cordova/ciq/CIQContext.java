@@ -86,18 +86,15 @@ public class CIQContext {
         repopulateDeviceMap(iqDevices);
     }
 
-    protected void repopulateDeviceMap(List<IQDevice> iqDevices) 
-            throws InvalidStateException, ServiceUnavailableException {
+    protected void repopulateDeviceMap(List<IQDevice> iqDevices) {
         deviceIdToDevice = new HashMap<Long, IQDevice>();
 
         for (IQDevice iqDevice : iqDevices) {
             deviceIdToDevice.put(iqDevice.getDeviceIdentifier(), iqDevice);
-            iqDevice.setStatus(ciqInstance.getDeviceStatus(iqDevice));
         }
     }
 
-    protected JSONArray devicesToJSON(Collection<IQDevice> iqDevices) 
-            throws JSONException {
+    protected JSONArray devicesToJSON(Collection<IQDevice> iqDevices) throws JSONException {
         JSONArray iqDevicesJson = new JSONArray();
 
         for (IQDevice iqDevice : iqDevices) {
@@ -112,7 +109,6 @@ public class CIQContext {
 
         iqDeviceJson.put("id", iqDevice.getDeviceIdentifier());
         iqDeviceJson.put("name", iqDevice.getFriendlyName());
-        // We actually have to fetch the status here, otherwise it comes across as "UNKNOWN"
         iqDeviceJson.put("status", iqDevice.getStatus().name());
 
         return iqDeviceJson;

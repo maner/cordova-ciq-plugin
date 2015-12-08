@@ -53,6 +53,19 @@ public class CIQPlugin extends CordovaPlugin {
                 }
             };
         } else if ("subscribeDeviceEvents".equals(action)) {
+        } else if ("deviceStatus".equals(action)) {
+            callable = new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    if (args.length() <= 0) {
+                        callbackContext.error("MISSING_DEVICE_ID");
+                    }
+                    
+                    ciqContext.getDeviceStatus(args.getString(0), callbackContext);
+                    
+                    return null;
+                }
+            };
         }
 
         if (callable != null) {

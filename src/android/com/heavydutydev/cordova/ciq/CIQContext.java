@@ -9,6 +9,7 @@ import com.garmin.android.connectiq.ConnectIQ;
 import com.garmin.android.connectiq.IQDevice;
 import com.garmin.android.connectiq.exception.InvalidStateException;
 import com.garmin.android.connectiq.exception.ServiceUnavailableException;
+import java.util.Collection;
 import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,14 +53,37 @@ public class CIQContext {
 
     public void getKnownDevices(CallbackContext callbackContext) 
             throws InvalidStateException, ServiceUnavailableException {
-            List<IQDevice> iqDevices = ciqInstance.getKnownDevices();
-            repopulateDeviceMap(iqDevices);
             try {
-                callbackContext.success(devicesToJSON(iqDevices));
+                populateKnownDevices();
+                callbackContext.success(devicesToJSON(deviceIdToDevice.values()));
             } catch (JSONException e) {
                 Log.e(TAG, "Unable to serialize response", e);
                 callbackContext.error("SERIALIZATION_ERROR");
             }
+    }
+    
+    public void getDeviceStatus(String deviceId, CallbackContext callbackContext) 
+            throws InvalidStateException, ServiceUnavailableException {
+        try {
+            Long longDeviceId = Long.parseLong(deviceId);
+            IQDevice iqDevice = deviceIdToDevice.get(longDeviceId);
+            if (iqDevice == null) {
+                populateKnownDevices();
+                iqDevice = deviceIdToDevice.get(longDeviceId);
+                if (iqDevice == null) {
+                    callbackContext.error("UNKNOWN_DEVICE_ID");
+                }
+            }
+            callbackContext.success(ciqInstance.getDeviceStatus(iqDevice).name());
+        } catch (NumberFormatException e) {
+            callbackContext.error("INVALID_DEVICE_ID");
+        }
+    }
+    
+    protected void populateKnownDevices() throws InvalidStateException, 
+            ServiceUnavailableException {
+        List<IQDevice> iqDevices = ciqInstance.getKnownDevices();
+        repopulateDeviceMap(iqDevices);
     }
 
     protected void repopulateDeviceMap(List<IQDevice> iqDevices) {
@@ -70,7 +94,7 @@ public class CIQContext {
         }
     }
 
-    protected JSONArray devicesToJSON(List<IQDevice> iqDevices) throws JSONException {
+    protected JSONArray devicesToJSON(Collection<IQDevice> iqDevices) throws JSONException {
         JSONArray iqDevicesJson = new JSONArray();
 
         for (IQDevice iqDevice : iqDevices) {

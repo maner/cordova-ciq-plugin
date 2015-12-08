@@ -69,7 +69,6 @@
 
     </platform> -->
 
-    <!-- android -->
     <platform name="android">
 
         <config-file target="res/xml/config.xml" parent="/*">
@@ -88,7 +87,6 @@
             <uses-feature android:name="android.hardware.camera" android:required="false" />
             <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 
-            <!-- for most things, including card.io & paypal
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
             <uses-permission android:name="android.permission.INTERNET"/>

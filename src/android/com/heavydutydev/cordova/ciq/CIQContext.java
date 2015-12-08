@@ -18,7 +18,7 @@ public class CIQContext {
     public static final String TAG = "CIQContext";
     
     private final ConnectIQ ciqInstance;
-    private Map<Long, IQDevice> deviceIdToDevice;
+    private Map<Long, IQDevice> deviceIdToDevice = new HashMap<Long, IQDevice>();
 
     public CIQContext(Context context) {
         ciqInstance = ConnectIQ.getInstance(context, ConnectIQ.IQConnectType.WIRELESS);

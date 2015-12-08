@@ -78,6 +78,7 @@
         </config-file>
 
         <source-file src="src/android/com/heavydutydev/cordova/ciq/CIQPlugin.java" target-dir="src/com/heavydutydev/cordova/ciq" />
+        <source-file src="src/android/com/heavydutydev/cordova/ciq/CIQContext.java" target-dir="src/com/heavydutydev/cordova/ciq" />
         <source-file src="src/android/libs/connectiq.jar" target-dir="libs" />
 <!-- 
         <config-file target="AndroidManifest.xml" parent="/manifest">
